@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+      xmlns:p="http://primefaces.org/ui"
+      lang="#{localeController.language}">
+<f:view locale="#{localeController.locale}">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <h:outputScript library="javascript" name="utility.js"/>
+        <title>
+            <ui:insert name="title">
+                <h:outputText value="#{i18n['page.' += viewController.fullName]} - #{i18n['this.name']}"/>
+            </ui:insert>
+        </title>
+    </h:head>
+
+    <h:body>
+        <h:outputStylesheet library="css" name="override.css"/>
+
+        <div id="header" class="container text-center">
+            <h:link outcome="/public/login.xhtml"><h1>#{i18n['this.name']} #{i18n['this.admin']}</h1></h:link>
+
+            <h:form styleClass="pull-right sm-block">
+                <h:selectOneMenu value="#{localeController.language}" onchange="submit()">
+                    <f:selectItem itemValue="en" itemLabel="#{i18n['language.en']}"/>
+                    <f:selectItem itemValue="hr" itemLabel="#{i18n['language.hr']}"/>
+                </h:selectOneMenu>
+            </h:form>
+
+            <ui:insert name="navigation">
+            </ui:insert>
+        </div>
+
+        <p:confirmDialog global="true">
+            <p:commandButton value="#{i18n['no']}" type="button" styleClass="ui-confirmdialog-no"/>
+            <p:commandButton value="#{i18n['yes']}" type="button" styleClass="ui-confirmdialog-yes"/>
+        </p:confirmDialog>
+
+        <div id="main"
+             class="#{not empty mainSizes ? mainSizes : 'col-md-12 col-md-offset-0 col-lg-10 col-lg-offset-1'}"
+             style="padding-top: 30px">
+            <p:messages id="messages" globalOnly="true" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <p:growl id="growl" showDetail="true" sticky="true" for="growl">
+                <p:autoUpdate/>
+            </p:growl>
+
+            <ui:insert name="main">
+            </ui:insert>
+        </div>
+    </h:body>
+</f:view>
+</html>

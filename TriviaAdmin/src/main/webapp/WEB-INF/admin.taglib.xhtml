@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facelettaglibrary_2_2.xsd"
+        version="2.2">
+    <description>Taglib for the Trivia Admin web user interface.</description>
+    <namespace>http://www.trivia.com/admin-ui</namespace>
+    <short-name>a</short-name>
+
+    <tag>
+        <description>Navigation link.</description>
+        <tag-name>link</tag-name>
+        <source>tags/link.xhtml</source>
+        <attribute>
+            <description>The outcome of the link.</description>
+            <name>outcome</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The value of the link. Defaults to i18n page title of outcome.</description>
+            <name>value</name>
+            <required>false</required>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <description>The Bootstrap button style type. Defaults to [btn-]primary.</description>
+            <name>btnStyle</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Indicates a partial match to look for active styling.
+                Defaults to a full match of the absolute path of the outcome.</description>
+            <name>partialMatch</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    <tag>
+        <description>Uploads an image and renders a thumbnail.</description>
+        <tag-name>imageUpload</tag-name>
+        <source>tags/imageUpload.xhtml</source>
+        <attribute>
+            <description>The id of the wrapping panelGroup. Defaults to imageUpload.</description>
+            <name>id</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The image as byte[] or InputStream.</description>
+            <name>image</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+        <attribute>
+            <description>The listener method for the upload of the image.</description>
+            <name>uploadListener</name>
+            <required>true</required>
+            <method-signature></method-signature>
+        </attribute>
+        <attribute>
+            <description>The listener method for the removal of the uploaded image.</description>
+            <name>removeListener</name>
+            <required>true</required>
+            <method-signature></method-signature>
+        </attribute>
+    </tag>
+    <tag>
+        <description>Renders an image thumbnail and dialog on click.</description>
+        <tag-name>imageThumbnail</tag-name>
+        <source>tags/imageThumbnail.xhtml</source>
+        <attribute>
+            <description>The id of the wrapping panelGroup. Defaults to imageThumbnail.</description>
+            <name>id</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The image as byte[] or InputStream.</description>
+            <name>image</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+        </attribute>
+    </tag>
+</facelet-taglib>

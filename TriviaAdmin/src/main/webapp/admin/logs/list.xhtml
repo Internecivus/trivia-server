@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:define name="main">
+        <h:form>
+            <p:dataTable id="logs_table"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         rows="10"
+                         value="#{logController.lazyLogs}"
+                         var="log"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}"
+                         rowsPerPageTemplate="10,25,100"
+                         pageLinks="5"
+                         reflow="true"
+                         tableStyleClass=""
+                         tableStyle="table-layout: auto;"
+                         rowStyleClass=""
+                         emptyMessage="#{i18n['notFound']}"
+                         widgetVar="logsTable"
+                         lazy="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="#{i18n['log.message']}">
+                    <h:outputText value="#{log.message}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

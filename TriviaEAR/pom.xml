@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>TriviaServer</artifactId>
+        <groupId>com.trivia</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.trivia</groupId>
+    <artifactId>TriviaEAR</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>ear</packaging>
+
+    <name>Trivia EAR</name>
+
+    <!--<build>-->
+        <!--<finalName>TriviaEAR.ear</finalName> &lt;!&ndash;An .ear extensions needs to be added because otherwise Intellij has a problem with an exploded deployment. This needs to be removed in production.&ndash;&gt;-->
+    <!--</build>-->
+
+    <dependencies>
+        <dependency>
+            <groupId>com.trivia</groupId>
+            <artifactId>TriviaPersistence</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.trivia</groupId>
+            <artifactId>TriviaCore</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.trivia</groupId>
+            <artifactId>TriviaAPI</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.trivia</groupId>
+            <artifactId>TriviaAdmin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <unpackTypes>rar,war,ejb</unpackTypes>
+                    <version>8</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <generateApplicationXml>false</generateApplicationXml>
+                    <initializeInOrder>true</initializeInOrder>
+                    <modules>
+                        <jarModule>
+                            <groupId>com.trivia</groupId>
+                            <artifactId>TriviaPersistence</artifactId>
+                            <bundleFileName>TriviaPersistence.jar</bundleFileName>
+                        </jarModule>
+
+                        <ejbModule>
+                            <groupId>com.trivia</groupId>
+                            <artifactId>TriviaCore</artifactId>
+                            <bundleFileName>TriviaCore.jar</bundleFileName>
+                        </ejbModule>
+
+                        <webModule>
+                            <groupId>com.trivia</groupId>
+                            <artifactId>TriviaAdmin</artifactId>
+                            <bundleFileName>TriviaAdmin.war</bundleFileName>
+                            <contextRoot>/</contextRoot>
+                        </webModule>
+
+                        <webModule>
+                            <groupId>com.trivia</groupId>
+                            <artifactId>TriviaAPI</artifactId>
+                            <bundleFileName>TriviaAPI.war</bundleFileName>
+                            <contextRoot>/api</contextRoot>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+        <!--TODO: Needs to have an .ear extension because of Intellij exploded deployment rules. Remove in production.-->
+        <finalName>TriviaEAR.ear</finalName>
+    </build>
+</project>

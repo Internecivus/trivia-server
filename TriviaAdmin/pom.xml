@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>TriviaServer</artifactId>
+        <groupId>com.trivia</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.trivia</groupId>
+    <artifactId>TriviaAdmin</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>Trivia Admin</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.adminfaces</groupId>
+            <artifactId>admin-theme</artifactId>
+            <version>1.0.0-RC15</version>
+            <!--<classifier>without-bootstrap</classifier>-->
+        </dependency>
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.trivia</groupId>
+            <artifactId>TriviaPersistence</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.trivia</groupId>
+            <artifactId>TriviaCore</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.soteria</groupId>
+            <artifactId>javax.security.enterprise</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <p:panel header="#{i18n['page.clients.details']}">
+            <div class="form-group">
+                <p:outputLabel for="id" value="#{i18n['client.id']}"/>
+                <p><h:outputText value="#{clientDetailsController.client.id}" id="id"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel styleClass="form-label" for="date_created"
+                               value="#{i18n['client.dateCreated']}"/>
+                <p><h:outputText id="date_created" value="#{clientDetailsController.client.dateCreated}">
+                    <f:convertDateTime type="date" pattern="dd. MMMM yyyy HH:mm"/>
+                </h:outputText></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="api_key" value="#{i18n['client.apiKey']}"/>
+                <p><h:outputText value="#{clientDetailsController.client.apiKey}" id="api_key"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="provider" value="#{i18n['client.provider']}"/>
+                <p><h:outputText value="#{clientEditController.client.user.name}" id="provider"/></p>
+            </div>
+            <div class="form-group">
+                <p:button value="#{i18n['action.edit']}" styleClass="btn btn-primary" outcome="edit">
+                    <f:param name="id" value="#{clientDetailsController.client.id}"/>
+                </p:button>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>

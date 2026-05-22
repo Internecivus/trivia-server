@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+
+    <ui:define name="main">
+        <h:form>
+            <p:dataTable id="questions_table"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         rows="10"
+                         value="#{questionsListController.lazyQuestions}"
+                         var="question"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}"
+                         rowsPerPageTemplate="10,25,100"
+                         pageLinks="5"
+                         reflow="true"
+                         tableStyleClass=""
+                         tableStyle="table-layout: auto;"
+                         rowStyleClass=""
+                         emptyMessage="#{i18n['notFound']}"
+                         widgetVar="questionsTable"
+                         sortBy="#{question.dateCreated}"
+                         sortOrder="descending"
+                         lazy="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:outputLabel for="globalFilter" style="padding-right: 5px" value="#{i18n['search']}:"/>
+                        <p:inputText id="globalFilter"
+                                     styleClass="form-control"
+                                     onkeyup="PF('questionsTable').filter()"
+                                     style="display:inline; width:150px; align-content: center"
+                                     placeholder="#{i18n['search.placeholder']}"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column sortBy="#{question.id}" headerText="#{i18n['question.id']}" styleClass="text-center">
+                    <h:outputText value="#{question.id}"/>
+                </p:column>
+
+                <p:column headerText="#{i18n['question.question']}">
+                    <h:outputText value="#{question.question}"/>
+                </p:column>
+
+                <p:column headerText="#{i18n['question.user']}" styleClass="text-center">
+                    <h:outputText value="#{question.user.name}"/>
+                </p:column>
+
+                <p:column sortBy="#{question.dateCreated}"
+                          headerText="#{i18n['question.dateCreated']}"
+                          styleClass="text-center">
+                    <h:outputText value="#{question.dateCreated}" styleClass="text-nowrap">
+                        <f:convertDateTime type="date" pattern="dd. MMMM yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column sortBy="#{question.dateLastModified}"
+                          headerText="#{i18n['question.dateLastModified']}"
+                          styleClass="text-center">
+                    <h:outputText value="#{question.dateLastModified}" styleClass="text-nowrap">
+                        <f:convertDateTime type="date" pattern="dd. MMMM yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{i18n['actions']}" width="250" styleClass="text-center">
+                    <div class="btn-group btn-group-toggle">
+                        <p:button value="#{i18n['action.details']}" styleClass="btn btn-secondary" outcome="details">
+                            <f:param name="id" value="#{question.id}"/>
+                        </p:button>
+
+                        <p:button value="#{i18n['action.edit']}" styleClass="btn btn-secondary" outcome="edit">
+                            <f:param name="id" value="#{question.id}"/>
+                        </p:button>
+
+                        <p:commandButton value="#{i18n['action.delete']}"
+                                         styleClass="btn btn-danger"
+                                         update="questions_table"
+                                         action="#{questionsListController.delete(question.id)}">
+                            <p:confirm header="#{i18n['delete.confirmation.header']}"
+                                       message="#{i18n['delete.confirmation.message']}"/>
+                        </p:commandButton>
+                    </div>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

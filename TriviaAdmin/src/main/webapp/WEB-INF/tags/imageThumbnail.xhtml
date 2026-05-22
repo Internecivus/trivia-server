@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:a="http://www.trivia.com/admin-ui">
+    <o:tagAttribute name="image"/>
+    <o:tagAttribute name="id" default="imageThumbnail"/>
+
+    <h:panelGroup rendered="#{not empty image}">
+        <o:graphicImage value="#{image}"
+                        styleClass="image-thumbnail"
+                        onclick="PF('imageDialog').show();"
+                        dataURI="true"/>
+        <p:dialog id="picture" widgetVar="imageDialog" header="#{i18n['image']}" resizable="false">
+            <o:graphicImage value="#{image}"
+                            dataURI="true"/>
+        </p:dialog>
+    </h:panelGroup>
+</ui:composition>

@@ -1,0 +1,57 @@
+/*.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {*/
+    /*padding:4px 10px;*/
+    /*overflow:hidden;*/
+    /*border-width:0px;*/
+    /*border-style:none;*/
+/*}*/
+
+.ui-button-text-only .ui-button-text {
+    padding: 0;
+}
+
+.ui-button {
+    margin-right: inherit;
+}
+
+.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    color: #fff !important;
+    background-color: #286090 !important;
+    border-color: #204d74 !important;
+}
+
+/*TODO: Refactor this*/
+@media all and (max-width:640px) {
+    .sm-block, .sm-block * {
+        width: 100% !important;
+        display: block !important;
+        position: relative;
+        padding-bottom: 5px;
+        float: none !important;
+    }
+
+    .sm-block li * {
+        width: 100% !important;
+    }
+}
+
+.tag {
+    display: inline-block;
+    padding: 3px 5px 3px 5px;
+    border-radius: 5px;
+    cursor: default;
+    background-color: #3c8dbc !important;
+    border-color: #367fa9 !important;
+    color: white !important;
+}
+
+.image-thumbnail {
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
+}
+
+.image-thumbnail:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}

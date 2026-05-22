@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <h:form id="user_create" enctype="multipart/form-data">
+            <p:panel header="#{i18n['page.users.create']}">
+                <div class="form-group">
+                    <p:outputLabel styleClass="control-label" for="name"
+                                   value="#{i18n['user.name']}"/>
+                    <p:inputText value="#{userCreateController.user.name}"
+                                 styleClass="form-control" id="name"/>
+                    <p:message for="name"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="password" value="#{i18n['user.password']}"/>
+                    <p:password value="#{userCreateController.user.password}"
+                                autocomplete="off"
+                                styleClass="form-control" id="password"/>
+                    <p:message for="password"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="roles" value="#{i18n['user.roles']}"/>
+                    <p:selectManyCheckbox id="roles"
+                                          styleClass="form-control"
+                                          layout="lineDirection"
+                                          value="#{userCreateController.user.roles}">
+                        <f:attribute name="collectionType" value="java.util.HashSet"/>
+                        <f:selectItems value="#{userCreateController.rolesAvailable}"
+                                       var="role"
+                                       itemValue="#{role}"
+                                       itemLabel="#{role.name}"/>
+                    </p:selectManyCheckbox>
+                    <p:message for="roles"/>
+                </div>
+                <div class="form-group">
+                    <p:commandButton action="#{userCreateController.create()}"
+                                     styleClass="btn btn-primary"
+                                     type="submit"
+                                     value="#{i18n['action.create']}"
+                                     update="user_create"
+                                     validateClient="true"/> <!--ajax="false"-->
+                    <p:commandButton value="#{i18n['action.reset']}"
+                                     styleClass="btn btn-secondary">
+                        <p:ajax update="user_create" resetValues="true"/>
+                    </p:commandButton>
+                </div>
+            </p:panel>
+
+            <p:dialog id="secretDialog" widgetVar="secretDialog" width="500px" header="#{i18n['warning']}" resizable="false" dynamic="true">
+                <p:ajax event="close" listener="#{userCreateController.closeSecretDialog}"/>
+
+                <h:outputFormat value="#{i18n['auth.showApiSecret']}">
+                    <f:param value="#{userCreateController.providerSecret}"/>
+                </h:outputFormat>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

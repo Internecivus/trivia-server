@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://www.trivia.com/admin-ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <p:panel header="#{i18n['page.questions.create']}">
+            <div class="form-group">
+                <p:outputLabel for="id" value="#{i18n['question.id']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.id}" id="id"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel styleClass="form-label" for="date_created"
+                               value="#{i18n['question.dateCreated']}"/>
+                <p><h:outputText id="date_created" value="#{questionDetailsController.question.dateCreated}">
+                    <f:convertDateTime type="date" pattern="dd. MMMM yyyy HH:mm"/>
+                </h:outputText></p>
+            </div>
+            <p:panelGrid rendered="#{not empty questionDetailsController.question.dateLastModified}">
+                <div class="form-group">
+                    <p:outputLabel styleClass="form-label" for="date_last_modified"
+                                   value="#{i18n['question.dateLastModified']}"/>
+                    <p><h:outputText id="date_last_modified" value="#{questionDetailsController.question.dateLastModified}">
+                        <f:convertDateTime type="date" pattern="dd. MMMM yyyy HH:mm"/>
+                    </h:outputText></p>
+                </div>
+            </p:panelGrid>
+            <div class="form-group">
+                <p:outputLabel for="user" value="#{i18n['question.user']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.user.name}" id="user"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="question" value="#{i18n['question.question']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.question}" id="question"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="answer_first" value="#{i18n['question.answerFirst']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.answerFirst}" id="answer_first"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="answer_second" value="#{i18n['question.answerSecond']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.answerSecond}" id="answer_second"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="answer_third" value="#{i18n['question.answerThird']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.answerThird}" id="answer_third"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="answer_fourth" value="#{i18n['question.answerFourth']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.answerFourth}" id="answer_fourth"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="answer_correct" value="#{i18n['question.answerCorrect']}"/>
+                <p><h:outputText value="#{questionDetailsController.question.answerCorrect}" id="answer_correct"/></p>
+            </div>
+            <p:panelGrid rendered="#{not empty questionDetailsController.question.comment}">
+                <div class="form-group">
+                    <p:outputLabel for="comment" value="#{i18n['question.comment']}"/>
+                    <p><h:outputText value="#{questionDetailsController.question.comment}" id="comment"/></p>
+                </div>
+            </p:panelGrid>
+            <div class="form-group">
+                <p:outputLabel value="#{i18n['question.image']}"/>
+                <a:imageThumbnail image="#{questionDetailsController.uploadedImage}"/>
+            </div>
+            <div class="form-group">
+                <p:outputLabel value="#{i18n['question.categories']}"/>
+                <div>
+                    <ui:repeat value="#{questionDetailsController.question.categories}" var="category">
+                        <div class="tag"><h:outputText value="#{category.name}"/></div>
+                    </ui:repeat>
+                </div>
+            </div>
+            <div class="form-group">
+                <p:button value="#{i18n['action.edit']}" styleClass="btn btn-primary" outcome="edit">
+                    <f:param name="id" value="#{questionDetailsController.question.id}"/>
+                </p:button>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>

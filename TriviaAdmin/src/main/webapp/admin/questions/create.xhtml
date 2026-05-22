@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:a="http://www.trivia.com/admin-ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <h:form id="question_create" enctype="multipart/form-data">
+            <p:panel header="#{i18n['page.questions.create']}">
+                <div class="form-group">
+                    <p:outputLabel styleClass="control-label" for="question"
+                                   value="#{i18n['question.question']}"/>
+                    <p:inputText value="#{questionCreateController.question.question}"
+                                 styleClass="form-control" id="question"/>
+                    <p:message for="question"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="answer_first" value="#{i18n['question.answerFirst']}"/>
+                    <p:inputText value="#{questionCreateController.question.answerFirst}"
+                                 styleClass="form-control" id="answer_first"/>
+                    <p:message for="answer_first"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="answer_second" value="#{i18n['question.answerSecond']}"/>
+                    <p:inputText value="#{questionCreateController.question.answerSecond}"
+                                 styleClass="form-control" id="answer_second"/>
+                    <p:message for="answer_second"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="answer_third" value="#{i18n['question.answerThird']}"/>
+                    <p:inputText value="#{questionCreateController.question.answerThird}"
+                                 styleClass="form-control" id="answer_third"/>
+                    <p:message for="answer_third"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="answer_fourth" value="#{i18n['question.answerFourth']}"/>
+                    <p:inputText value="#{questionCreateController.question.answerFourth}"
+                                 styleClass="form-control" id="answer_fourth"/>
+                    <p:message for="answer_fourth"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="answer_correct" value="#{i18n['question.answerCorrect']}"/>
+                    <h:selectOneMenu value="#{questionCreateController.question.answerCorrect}"
+                                     styleClass="form-control" id="answer_correct">
+                        <f:selectItem itemLabel="#{i18n['select.one']}" noSelectionOption="true"/>
+                        <f:selectItems value="#{[1,2,3,4]}"
+                                       var="answerNumber"
+                                       itemLabel="#{answerNumber}"
+                                       itemValue="#{answerNumber}"/>
+                    </h:selectOneMenu>
+                    <p:message for="answer_correct"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="comment" value="#{i18n['question.comment']}"/>
+                    <p:inputTextarea value="#{questionCreateController.question.comment}"
+                                     styleClass="form-control" id="comment"/>
+                    <p:message for="comment"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{i18n['question.image']}"/>
+                    <a:imageUpload removeListener="#{questionCreateController.removeImage()}"
+                                   uploadListener="#{questionCreateController.uploadImage}"
+                                   image="#{questionCreateController.uploadedImage}"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="categories" value="#{i18n['question.categories']}"/>
+                    <p:selectManyCheckbox id="categories"
+                                          styleClass="form-control"
+                                          layout="lineDirection"
+                                          value="#{questionCreateController.question.categories}">
+                        <f:attribute name="collectionType" value="java.util.HashSet"/>
+                        <f:selectItems value="#{questionCreateController.categoriesAvailable}"
+                                       var="category"
+                                       itemValue="#{category}"
+                                       itemLabel="#{category.name}"/>
+                    </p:selectManyCheckbox>
+                    <p:message for="categories"/>
+                </div>
+                <div class="form-group">
+                    <p:commandButton action="#{questionCreateController.create()}"
+                                     styleClass="btn btn-primary"
+                                     type="submit"
+                                     value="#{i18n['action.create']}"
+                                     ajax="false"
+                                     validateClient="true"/>
+                    <p:commandButton value="#{i18n['action.reset']}"
+                                     styleClass="btn btn-secondary">
+                        <p:ajax update="question_create" resetValues="true"/>
+                    </p:commandButton>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

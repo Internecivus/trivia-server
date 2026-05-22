@@ -1,0 +1,8 @@
+TriviaPersistence/target
+TriviaAdmin/target
+TriviaAPI/target
+TriviaCore/target
+.idea
+out
+TriviaEAR/target
+*.iml

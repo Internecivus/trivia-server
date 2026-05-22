@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:a="http://www.trivia.com/admin-ui">
+    <o:tagAttribute name="image"/>
+    <o:tagAttribute name="id" default="imageUpload"/>
+    <o:methodParam name="removeListener" value="#{removeListener}"/>
+    <o:methodParam name="uploadListener" value="#{uploadListener}"/>
+
+    <h:panelGroup id="#{id}">
+        <c:choose>
+            <c:when test="#{not empty image}">
+                <!--TODO: <a:imageThumbnail value="#{image}"/>-->
+                <o:graphicImage value="#{image}"
+                                styleClass="image-thumbnail"
+                                onclick="PF('imageDialog').show();"
+                                dataURI="true"/>
+                <p:dialog id="picture" widgetVar="imageDialog" header="#{i18n['image']}" resizable="false">
+                    <o:graphicImage value="#{image}"
+                                    dataURI="true"/>
+                </p:dialog>
+                <p:commandButton styleClass="btn btn-primary btn-sm" value="#{i18n['action.remove']}">
+                    <f:ajax event="click" listener="#{removeListener}"/>
+                </p:commandButton>
+            </c:when>
+            <c:otherwise>
+                <p:fileUpload fileUploadListener="#{uploadListener}"
+                              fileLimit="1"
+                              mode="advanced"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png|tiff?|w?bmp)$/"
+                              auto="true"
+                              id="image_upload"
+                              widgetVar="imageUpload"
+                              invalidFileMessage="#{i18n['upload.invalidFile']}"
+                              fileLimitMessage="#{i18n['upload.fileLimit']}"
+                              invalidSizeMessage="#{i18n['upload.invalidSize']}"
+                              sizeLimit="2000000"
+                              skinSimple="true"/>
+                <p:message for="image_upload"/>
+            </c:otherwise>
+        </c:choose>
+    </h:panelGroup>
+</ui:composition>

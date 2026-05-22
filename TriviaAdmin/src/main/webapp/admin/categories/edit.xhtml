@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://www.trivia.com/admin-ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <h:form id="category_edit" enctype="multipart/form-data">
+            <p:panel header="#{i18n['page.categories.edit']}">
+                <div class="form-group">
+                    <p:outputLabel for="id" value="#{i18n['category.id']}"/>
+                    <p><h:outputText value="#{categoryEditController.category.id}" id="id"/></p>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="name" value="#{i18n['category.name']}"/>
+                    <p:inputText value="#{categoryEditController.category.name}"
+                                 styleClass="form-control" id="name"/>
+                    <p:message for="name"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="description" value="#{i18n['category.description']}"/>
+                    <p:inputText value="#{categoryEditController.category.description}"
+                                 styleClass="form-control" id="description"/>
+                    <p:message for="description"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{i18n['category.image']}"/>
+                    <a:imageUpload removeListener="#{categoryEditController.removeImage()}"
+                                   uploadListener="#{categoryEditController.uploadImage}"
+                                   image="#{categoryEditController.uploadedImage}"/>
+                </div>
+                <div class="form-group">
+                    <div class="btn-group btn-group-toggle">
+                        <p:commandButton value="#{i18n['action.reset']}"
+                                         styleClass="btn btn-secondary">
+                            <p:ajax update="category_edit" resetValues="true"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{i18n['action.delete']}"
+                                         styleClass="btn btn-danger"
+                                         update="category_edit"
+                                         immediate="true"
+                                         validateClient="false"
+                                         action="#{categoryEditController.delete()}">
+                            <p:confirm header="#{i18n['delete.confirmation.header']}"
+                                       message="#{i18n['delete.confirmation.message']}"/>
+                        </p:commandButton>
+                        <p:commandButton action="#{categoryEditController.update()}"
+                                         type="submit"
+                                         value="#{i18n['action.save']}"
+                                         update="category_edit"
+                                         validateClient="true"
+                                         styleClass="btn btn-primary">
+                            <p:confirm header="#{i18n['update.confirmation.header']}"
+                                       message="#{i18n['update.confirmation.message']}"/>
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

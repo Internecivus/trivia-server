@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:param name="mainSizes" value="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4"/>
+
+    <ui:define name="main">
+        <p:panel header="#{i18n['page.login']}">
+            <h:form action="">
+                <div class="form-group">
+                    <p:outputLabel for="username" styleClass="control-label">#{i18n['username']}</p:outputLabel>
+                    <p:inputText value="#{loginController.user.name}" styleClass="form-control" id="username"/>
+                    <p:message for="username"/>
+                </div>
+
+                <div class="form-group">
+                    <p:outputLabel for="password" styleClass="control-label">#{i18n['auth.password']}</p:outputLabel>
+                    <p:password value="#{loginController.user.password}" styleClass="form-control" id="password"/>
+                    <p:message for="password"/>
+                </div>
+
+                <div class="checkbox">
+                    <p:selectBooleanCheckbox id="remember_me" value="#{loginController.rememberMe}"/>
+                    <p:outputLabel for="remember_me" styleClass="control-label">#{i18n['rememberme']}</p:outputLabel>
+                </div>
+
+                <p:commandButton action="#{loginController.login()}"
+                                 type="submit"
+                                 validateClient="true"
+                                 value="Login"
+                                 ajax="false"
+                                 styleClass="btn btn-primary"/>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

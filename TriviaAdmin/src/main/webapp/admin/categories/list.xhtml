@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+
+    <ui:define name="main">
+        <h:form>
+            <p:dataTable id="categories_table"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         rows="10"
+                         value="#{categoriesListController.lazyCategories}"
+                         var="category"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}"
+                         rowsPerPageTemplate="10,25,100"
+                         pageLinks="5"
+                         reflow="true"
+                         tableStyleClass=""
+                         tableStyle="table-layout: auto;"
+                         rowStyleClass=""
+                         emptyMessage="#{i18n['notFound']}"
+                         widgetVar="categoriesTable"
+                         sortBy="#{category.dateCreated}"
+                         sortOrder="descending"
+                         lazy="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <p:outputLabel for="globalFilter" style="padding-right: 5px" value="#{i18n['search']}:"/>
+                        <p:inputText id="globalFilter"
+                                     styleClass="form-control"
+                                     onkeyup="PF('categoriesTable').filter()"
+                                     style="display:inline; width:150px; align-content: center"
+                                     placeholder="#{i18n['search.placeholder']}"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column sortBy="#{category.id}" headerText="#{i18n['category.id']}" styleClass="text-center">
+                    <h:outputText value="#{category.id}"/>
+                </p:column>
+
+                <p:column sortBy="#{category.name}" headerText="#{i18n['category.name']}" styleClass="text-center">
+                    <h:outputText value="#{category.name}"/>
+                </p:column>
+
+                <p:column sortBy="#{category.dateCreated}"
+                          headerText="#{i18n['category.dateCreated']}"
+                          styleClass="text-center">
+                    <h:outputText value="#{category.dateCreated}" styleClass="text-nowrap">
+                        <f:convertDateTime type="date" pattern="dd. MMMM yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Actions" width="250" styleClass="text-center">
+                    <div class="btn-group btn-group-toggle">
+                        <p:button value="#{i18n['action.details']}" styleClass="btn btn-secondary" outcome="details">
+                            <f:param name="id" value="#{category.id}"/>
+                        </p:button>
+
+                        <p:button value="#{i18n['action.edit']}" styleClass="btn btn-secondary" outcome="edit">
+                            <f:param name="id" value="#{category.id}"/>
+                        </p:button>
+
+                        <p:commandButton value="#{i18n['action.delete']}"
+                                         styleClass="btn btn-danger"
+                                         update="categories_table"
+                                         action="#{categoriesListController.delete(category.id)}">
+                            <p:confirm header="#{i18n['delete.confirmation.header']}"
+                                       message="#{i18n['delete.confirmation.message']}"/>
+                        </p:commandButton>
+                    </div>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

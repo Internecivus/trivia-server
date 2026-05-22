@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <p:panel header="#{i18n['page.users.details']}">
+            <div class="form-group">
+                <p:outputLabel for="id" value="#{i18n['user.id']}"/>
+                <p><h:outputText value="#{userDetailsController.user.id}" id="id"/></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel styleClass="form-label" for="date_created"
+                               value="#{i18n['user.dateCreated']}"/>
+                <p><h:outputText id="date_created" value="#{userDetailsController.user.dateCreated}">
+                    <f:convertDateTime type="date" pattern="dd. MMMM yyyy HH:mm"/>
+                </h:outputText></p>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="name" value="#{i18n['user.name']}"/>
+                <p><h:outputText value="#{userDetailsController.user.name}" id="name"/></p>
+            </div>
+            <p:panelGrid rendered="#{not empty userDetailsController.user.providerKey}">
+                <div class="form-group">
+                    <p:outputLabel for="provider_key" value="#{i18n['user.providerKey']}"/>
+                    <p><h:outputText value="#{userDetailsController.user.providerKey}" id="provider_key"/></p>
+                </div>
+            </p:panelGrid>
+            <div class="form-group">
+                <p:outputLabel value="#{i18n['user.roles']}"/>
+                <div>
+                    <ui:repeat value="#{userDetailsController.user.roles}" var="role">
+                        <div class="tag"><h:outputText value="#{role.name}"/></div>
+                    </ui:repeat>
+                </div>
+            </div>
+            <div class="form-group">
+                <p:button value="#{i18n['action.edit']}" styleClass="btn btn-primary" outcome="edit">
+                    <f:param name="id" value="#{userDetailsController.user.id}"/>
+                </p:button>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>

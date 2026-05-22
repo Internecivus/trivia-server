@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{i18n.error} #{viewController.name} - #{i18n['this.name']}"/>
+    </ui:define>
+
+    <ui:define name="main">
+        <f:view transient="true">
+            <div class="text-center">
+                <h2>
+                    <h:outputText value="#{viewController.name}"/>
+                </h2>
+                <h2>
+                    <h:outputText value="#{i18n['error.' += viewController.name += '.message']}" escape="false"/>
+                </h2>
+            </div>
+        </f:view>
+    </ui:define>
+</ui:composition>

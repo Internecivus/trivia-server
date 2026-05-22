@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <h:form id="client_edit" enctype="multipart/form-data">
+            <p:panel header="#{i18n['page.clients.edit']}">
+                <div class="form-group">
+                    <p:outputLabel for="id" value="#{i18n['client.id']}"/>
+                    <p><h:outputText value="#{clientEditController.client.id}" id="id"/></p>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="api_key" value="#{i18n['client.apiKey']}"/>
+                    <p><h:outputText value="#{clientEditController.client.apiKey}" id="api_key"/></p>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="provider" value="#{i18n['client.provider']}"/>
+                    <p><h:outputText value="#{clientEditController.client.user.name}" id="provider"/></p>
+                </div>
+                <div class="form-group">
+                    <p:commandButton action="#{clientEditController.generateNewAPISecret()}"
+                                     styleClass="btn btn-primary"
+                                     type="submit"
+                                     value="#{i18n['auth.newApiSecret']}"
+                                     ajax="false"/>
+                    <p:commandButton value="#{i18n['action.delete']}"
+                                     styleClass="btn btn-danger"
+                                     update="client_edit"
+                                     immediate="true"
+                                     validateClient="false"
+                                     action="#{clientEditController.delete()}">
+                        <p:confirm header="#{i18n['delete.confirmation.header']}"
+                                   message="#{i18n['delete.confirmation.message']}"/>
+                    </p:commandButton>
+                </div>
+            </p:panel>
+
+            <p:dialog id="secretDialog" widgetVar="secretDialog" width="500px" header="#{i18n['warning']}" resizable="false" dynamic="true">
+                <h:outputFormat value="#{i18n['auth.showApiSecret']}">
+                    <f:param value="#{clientEditController.clientSecret}"/>
+                </h:outputFormat>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

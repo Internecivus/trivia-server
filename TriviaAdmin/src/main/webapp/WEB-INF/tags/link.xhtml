@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:o="http://omnifaces.org/ui">
+    <o:tagAttribute name="outcome"/>
+    <o:tagAttribute name="value" default="#{i18n['page.' += viewController.fullName]}"/>
+    <o:tagAttribute name="btnStyle" default="primary"/>
+    <!--
+            If partialMatch is set then it only partialy matches it to the current path.
+        Otherwise it will check if the outcome is relative or absolute, get its full path accordingly,
+        and then proceed to check for a full match between this and the current path.
+
+            We are doing all of this so we can active style links with ourcomes such as "create", "questions", etc.,
+        according to beforehand created conventions.
+
+            All in all this is a very messy (and hard to debug), but needed solution.
+        An alternative would be the creation of view and tag structures that would check for this kind of thing
+        inherently and structurally, but that seems overkill for the requirements of this project.
+    -->
+    <o:tagAttribute name="partialMatch"/>
+
+    <p:link outcome="#{outcome}"
+            value="#{value}"
+            styleClass="btn
+                        btn-#{btnStyle}
+                        #{
+                            (
+                                    empty partialMatch ?
+                                    (
+                                        viewController.pathIs(
+                                            fn:startsWith(outcome, '/') ?
+                                            outcome : viewController.getPathFromOutcome(outcome)
+                                        )
+                                    ) : (fn:contains(viewController.path, partialMatch))
+                            ) ?
+                            'active' : ''
+                        }
+            ">
+        <ui:insert/>
+    </p:link>
+</ui:composition>

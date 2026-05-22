@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <h:form id="client_create" enctype="multipart/form-data">
+            <p:panel header="#{i18n['page.clients.create']}" style="width:100%">
+                <c:choose>
+                <c:when test="#{viewController.currentUser.hasRole(Role.MODERATOR)}">
+                    <p:tabView>
+                        <p:tab title="#{i18n['client.registerForCurrent']}">
+                            <p:panelGrid>
+                                <div class="form-group">
+                                    <p:commandButton action="#{clientCreateController.registerForCurrent()}"
+                                                     styleClass="btn btn-primary"
+                                                     type="submit"
+                                                     value="#{i18n['action.register']}"
+                                                     update="client_create"/>
+                                </div>
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab title="#{i18n['client.registerFor']}">
+                            <p:panelGrid>
+                                <div class="form-group">
+                                    <p:outputLabel for="provider_key" value="#{i18n['user.providerKey']}"/>
+                                    <p:inputText value="#{clientCreateController.providerKey}"
+                                                 styleClass="form-control" id="provider_key"/>
+                                    <p:message for="provider_key"/>
+                                </div>
+                                <p:panelGrid rendered="#{not viewController.currentUser.hasRole(Role.ADMIN)}">
+                                    <div class="form-group">
+                                        <p:outputLabel for="provider_secret" value="#{i18n['user.providerSecret']}"/>
+                                        <p:password value="#{clientCreateController.providerSecret}"
+                                                    styleClass="form-control" id="provider_secret"/>
+                                        <p:message for="provider_secret"/>
+                                    </div>
+                                </p:panelGrid>
+                                <div class="form-group">
+                                    <p:commandButton action="#{clientCreateController.registerFor()}"
+                                                     styleClass="btn btn-primary"
+                                                     type="submit"
+                                                     value="#{i18n['action.register']}"
+                                                     update="client_create"/>
+                                    <p:commandButton value="#{i18n['action.reset']}"
+                                                     styleClass="btn btn-secondary">
+                                        <p:ajax update="client_create" resetValues="true"/>
+                                    </p:commandButton>
+                                </div>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                </c:when>
+                <c:otherwise>
+                    <div class="form-group">
+                        <p:commandButton action="#{clientCreateController.registerForCurrent()}"
+                                         styleClass="btn btn-primary"
+                                         type="submit"
+                                         value="#{i18n['action.register']}"
+                                         update="client_create"/>
+                    </div>
+                </c:otherwise>
+                </c:choose>
+            </p:panel>
+
+            <p:dialog id="secretDialog" widgetVar="secretDialog" width="500px" header="#{i18n['warning']}" resizable="false" dynamic="true">
+                <h:outputFormat value="#{i18n['auth.showApiSecret']}">
+                    <f:param value="#{clientCreateController.clientSecret}"/>
+                </h:outputFormat>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

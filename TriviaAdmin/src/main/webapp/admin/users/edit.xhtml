@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:param name="subnavigationLinks" value="#{['list', 'create']}"/>
+    <ui:param name="mainSizes" value="col-sm-12 col-sm-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2"/>
+
+    <ui:define name="main">
+        <h:form id="user_edit" enctype="multipart/form-data">
+            <p:panel header="#{i18n['page.users.edit']}">
+                <div class="form-group">
+                    <p:outputLabel for="id" value="#{i18n['user.id']}"/>
+                    <p><h:outputText value="#{userEditController.user.id}" id="id"/></p>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel styleClass="control-label" for="name"
+                                   value="#{i18n['user.name']}"/>
+                    <p:inputText value="#{userEditController.user.name}"
+                                 styleClass="form-control" id="name"/>
+                    <p:message for="name"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="password" value="#{i18n['auth.newPassword']}"/>
+                    <p:inputText value="#{userEditController.newPassword}"
+                                 styleClass="form-control" id="password">
+                        <f:validateLength minimum="6" maximum="20"/>
+                    </p:inputText>
+                    <p:message for="password"/>
+                </div>
+
+                <div class="form-group">
+                    <p:outputLabel for="roles" value="#{i18n['user.roles']}"/>
+                    <p:selectManyCheckbox id="roles"
+                                          styleClass="form-control"
+                                          layout="lineDirection"
+                                          value="#{userEditController.user.roles}">
+                        <f:attribute name="collectionType" value="java.util.HashSet"/>
+                        <f:selectItems value="#{userEditController.rolesAvailable}"
+                                       var="role"
+                                       itemValue="#{role}"
+                                       itemLabel="#{role.name}"/>
+                    </p:selectManyCheckbox>
+                    <p:message for="roles"/>
+                </div>
+                <div class="form-group">
+                    <div class="btn-group btn-group-toggle">
+                        <p:commandButton value="#{i18n['action.reset']}"
+                                         styleClass="btn btn-secondary">
+                            <p:ajax update="user_edit" resetValues="true"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{i18n['action.delete']}"
+                                         styleClass="btn btn-danger"
+                                         update="user_edit"
+                                         immediate="true"
+                                         validateClient="false"
+                                         action="#{userEditController.delete()}">
+                            <p:confirm header="#{i18n['delete.confirmation.header']}"
+                                       message="#{i18n['delete.confirmation.message']}"/>
+                        </p:commandButton>
+                        <p:commandButton action="#{userEditController.update()}"
+                                         type="submit"
+                                         value="#{i18n['action.save']}"
+                                         update="user_edit"
+                                         validateClient="true"
+                                         styleClass="btn btn-primary">
+                            <p:confirm header="#{i18n['update.confirmation.header']}"
+                                       message="#{i18n['update.confirmation.message']}"/>
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:panel>
+
+            <p:dialog id="secretDialog" widgetVar="secretDialog" width="500px" header="#{i18n['warning']}" resizable="false" dynamic="true">
+                <p:ajax event="close" listener="#{userEditController.closeSecretDialog}"/>
+
+                <h:outputFormat value="#{i18n['auth.showApiSecret']}">
+                    <f:param value="#{userEditController.providerSecret}"/>
+                </h:outputFormat>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
